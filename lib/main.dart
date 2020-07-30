@@ -93,24 +93,40 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Despesas Pessoais",
-        ),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () => _openTransactionFormModal(context),
-          )
-        ],
+    final _appBar = AppBar(
+      title: Text(
+        "Despesas Pessoais",
       ),
+      actions: <Widget>[
+        IconButton(
+          icon: Icon(Icons.add),
+          onPressed: () => _openTransactionFormModal(context),
+        )
+      ],
+    );
+
+    //Tratamento de altura para os widgets
+    final availabelHeight = MediaQuery.of(context).size.height -
+        _appBar.preferredSize.height -
+        MediaQuery.of(context).padding.top;
+
+    //MediaQuery.of(context).padding.top
+    //-Pega o tamanho da altura da barra de status
+
+    return Scaffold(
+      appBar: _appBar,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Chart(_recentTransactions),
-            TransactionList(_transaction, _removeTransaction),
+            Container(
+              height: availabelHeight * 0.3,
+              child: Chart(_recentTransactions),
+            ),
+            Container(
+              height: availabelHeight * 0.7,
+              child: TransactionList(_transaction, _removeTransaction),
+            ),
           ],
         ),
       ),
